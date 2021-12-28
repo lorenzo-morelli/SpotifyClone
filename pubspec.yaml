@@ -1,0 +1,40 @@
+name: spotify
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Circular
+      fonts:
+        - asset: assets/fonts/Circular/CircularStd-Book.otf
+        - asset: assets/fonts/Circular/CircularStd-BookItalic.otf
+          style: italic
+        - asset: assets/fonts/Circular/CircularStd-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Circular/CircularStd-MediumItalic.otf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Circular/CircularStd-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Circular/CircularStd-BoldItalic.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Circular/CircularStd-Black.otf
+          weight: 900
+        - asset: assets/fonts/Circular/CircularStd-BlackItalic.otf
+          weight: 900
+          style: italic
