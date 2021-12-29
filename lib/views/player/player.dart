@@ -1,15 +1,27 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 
 class Player extends StatefulWidget {
-  const Player({Key? key}) : super(key: key);
+  const Player({Key? key, required this.player, required this.audioDuration}) : super(key: key);
+  final AudioController player;
+  final int audioDuration;
 
   @override
   _PlayerState createState() => _PlayerState();
 }
 
 class _PlayerState extends State<Player> {
-  var currentTime = 15.0;
+  @override
+  void initState() {
+    widget.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+      if (mounted) {
+        setState(() => AudioController.timeProgress = p.inMilliseconds);
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +41,7 @@ class _PlayerState extends State<Player> {
             padding: EdgeInsets.only(left: 25, right: 25, top: 15),
             child: ListView(
               children: [
-                SizedBox(height: 60),
+                SizedBox(height: 45),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -39,7 +51,7 @@ class _PlayerState extends State<Player> {
                     ),
                     Column(
                       children: const [
-                        Text('PLAYING FROM ALBUM', style: TextStyle(fontSize: 12)),
+                        Text('PLAYING FROM ALBUM', style: TextStyle(fontSize: 12, letterSpacing: 1)),
                         Text('Parachutes', style: TextStyle(fontWeight: FontWeight.w500)),
                       ],
                     ),
@@ -48,7 +60,7 @@ class _PlayerState extends State<Player> {
                 ),
                 SizedBox(height: 32),
                 Image.network(Constants.parachutesUrl),
-                SizedBox(height: 32),
+                SizedBox(height: 65),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -72,10 +84,12 @@ class _PlayerState extends State<Player> {
                   child: Slider(
                     activeColor: Colors.white,
                     inactiveColor: Colors.white24,
-                    min: 0,
-                    max: 100,
-                    value: currentTime,
-                    onChanged: (val) {},
+                    min: 0.0,
+                    max: (widget.audioDuration / 1000).floorToDouble(),
+                    value: (AudioController.timeProgress / 1000).floorToDouble(),
+                    onChanged: (val) {
+                      widget.player.seekToSec(val.toInt());
+                    },
                   ),
                 ),
                 Padding(
@@ -83,23 +97,42 @@ class _PlayerState extends State<Player> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('0:21', style: TextStyle(color: Colors.grey[400])),
-                      Text('4:29', style: TextStyle(color: Colors.grey[400])),
+                      Text(widget.player.getTimeString(AudioController.timeProgress), style: TextStyle(color: Colors.grey[400])),
+                      Text(widget.player.getTimeString(widget.audioDuration), style: TextStyle(color: Colors.grey[400])),
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 5),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Icon(Icons.shuffle_rounded, color: Colors.white, size: 25),
-                    SizedBox(width: 25),
-                    Icon(Icons.fast_rewind, color: Colors.white, size: 40),
-                    SizedBox(width: 25),
-                    Icon(Icons.pause_circle_filled, color: Colors.white, size: 90),
-                    SizedBox(width: 25),
-                    Icon(Icons.fast_forward, color: Colors.white, size: 40),
-                    SizedBox(width: 25),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.fast_rewind, color: Colors.white),
+                          iconSize: 40,
+                          onPressed: () => widget.player.seekToSec(0),
+                        ),
+                        SizedBox(width: 20),
+                        IconButton(
+                          onPressed: () {
+                            widget.player.audioPlayerState == PlayerState.PLAYING ? widget.player.pauseMusic() : widget.player.playMusic();
+                            if (mounted) {
+                              setState(() {});
+                            }
+                            ;
+                          },
+                          padding: EdgeInsets.zero,
+                          iconSize: 90,
+                          icon: widget.player.audioPlayerState == PlayerState.PLAYING
+                              ? Icon(Icons.pause_circle_filled, color: Colors.white)
+                              : Icon(Icons.play_circle_filled, color: Colors.white),
+                        ),
+                        SizedBox(width: 20),
+                        Icon(Icons.fast_forward, color: Colors.white, size: 40),
+                      ],
+                    ),
                     Icon(Icons.repeat_outlined, color: Colors.white, size: 25),
                   ],
                 ),

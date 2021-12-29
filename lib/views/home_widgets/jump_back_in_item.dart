@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/shared/constants.dart';
 
 class JumpBackInItem extends StatefulWidget {
-  const JumpBackInItem({Key? key, required this.title, required this.artist, required this.url}) : super(key: key);
-  final String title;
-  final String artist;
-  final String url;
+  const JumpBackInItem({Key? key, required this.album}) : super(key: key);
+  final Album album;
 
   @override
   _JumpBackInItemState createState() => _JumpBackInItemState();
@@ -21,11 +20,11 @@ class _JumpBackInItemState extends State<JumpBackInItem> {
           SizedBox(
               height: 160,
               width: 160,
-              child: Image.network(widget.url),
+              child: Image.network(widget.album.urlAlbum),
           ),
           SizedBox(height: 10),
-          Text(widget.title, style: TextStyle(fontWeight: FontWeight.w600)),
-          Text('Album • ${widget.artist}', style: TextStyle(color: Colors.grey)),
+          Text(widget.album.albumName, style: TextStyle(fontWeight: FontWeight.w600)),
+          Text('Album • ${widget.album.artist}', style: TextStyle(color: Colors.grey)),
         ],
       ),
     );

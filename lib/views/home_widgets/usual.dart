@@ -13,13 +13,13 @@ class _UsualState extends State<Usual> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 20, bottom: 40),
+      padding: EdgeInsets.symmetric(horizontal: Constants.padding),
       child: IgnorePointer(
         child: GridView.count(
           childAspectRatio: 2.9,
           crossAxisCount: 2,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
+          mainAxisSpacing: 9,
+          crossAxisSpacing: 9,
           shrinkWrap: true,
           children: Constants.usuals,
         ),

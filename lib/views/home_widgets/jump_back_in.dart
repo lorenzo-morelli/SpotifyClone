@@ -14,7 +14,7 @@ class _JumpBackInState extends State<JumpBackIn> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 10, bottom: 25),
+      padding: EdgeInsets.only(left: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -23,12 +23,12 @@ class _JumpBackInState extends State<JumpBackIn> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                JumpBackInItem(title: 'Avete Ragione Tutti', artist: 'Canova', url: Constants.canovaUrl),
-                JumpBackInItem(title: 'Money', artist: 'Pink Floyd', url: Constants.pinkFloydUrl),
-                JumpBackInItem(title: 'Parachutes', artist: 'Coldplay', url: Constants.parachutesUrl),
+                JumpBackInItem(album: Constants.aveteRagioneTutti),
+                JumpBackInItem(album: Constants.theDarkSideOfTheMoon),
+                JumpBackInItem(album: Constants.parachutes),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

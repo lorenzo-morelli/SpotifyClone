@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 import 'package:spotify/views/home_widgets/jump_back_in_item.dart';
 import 'package:spotify/views/search_widgets/genres.dart';
@@ -23,10 +24,11 @@ class _SearchState extends State<Search> {
       body: SafeArea(
         bottom: false,
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.symmetric(horizontal: Constants.padding),
           child: CustomScrollView(slivers: [
             SliverList(
               delegate: SliverChildListDelegate([
+                SizedBox(height: 50),
                 Text('Search', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800)),
                 SizedBox(height: 18),
               ]),
@@ -36,10 +38,8 @@ class _SearchState extends State<Search> {
               delegate: SectionHeaderDelegate(
                 height: 45,
                 child: GestureDetector(
-                    child: SearchButton(),
-                  onTap: () => Navigator.push(
-                          context,
-                      MaterialPageRoute(builder: (context) => Searching())),
+                  child: SearchButton(),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Searching())),
                 ),
               ),
             ),
@@ -54,6 +54,7 @@ class _SearchState extends State<Search> {
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Text('Browse all', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
+                Genres(),
               ]),
             )
           ]),

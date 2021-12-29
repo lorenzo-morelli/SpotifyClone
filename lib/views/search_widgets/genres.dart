@@ -6,13 +6,15 @@ class Genres extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      childAspectRatio: 2.1,
-      crossAxisCount: 2,
-      mainAxisSpacing: 15,
-      crossAxisSpacing: 15,
-      shrinkWrap: true,
-      children: Constants.genres,
+    return Container(
+      child: GridView.count(
+        childAspectRatio: 2.1,
+        crossAxisCount: 2,
+        mainAxisSpacing: 15,
+        crossAxisSpacing: 15,
+        shrinkWrap: true,
+        children: Constants.genres,
+      ),
     );
   }
 }

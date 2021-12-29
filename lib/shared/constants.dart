@@ -37,4 +37,31 @@ class Constants {
   static String canovaUrl = 'https://rockitecn.nohup.it/thumb1000x1000/copertine/36067/avete-ragione-tutti.jpg';
   static String pinkFloydUrl = 'https://www.leoravera.it/wp-content/uploads/2020/05/Pink-Floyd-Dark-Side-Of-The-Moon.jpg';
   static String silkSonicUrl = 'https://m.media-amazon.com/images/I/91Fa-A1oopL._AC_SL1500_.jpg';
+  static double padding = 15;
+
+  static Album aveteRagioneTutti = Album('Avete Ragione Tutti', canovaUrl, Artist('Canova'));
+  static Album theDarkSideOfTheMoon = Album('The Dark Side Of The Moon', pinkFloydUrl, Artist('Pink Floyd'));
+  static Album parachutes = Album('Parachutes', parachutesUrl, Artist('Coldplay'));
+}
+
+class Song {
+  String songName;
+  Album album;
+  Artist artist;
+
+  Song(this.songName, this.album, this.artist);
+}
+
+class Album {
+  String albumName;
+  String urlAlbum;
+  Artist artist;
+
+  Album(this.albumName, this.urlAlbum, this.artist);
+}
+
+class Artist {
+  String artistName;
+
+  Artist(this.artistName);
 }

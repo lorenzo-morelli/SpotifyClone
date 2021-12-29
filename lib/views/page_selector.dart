@@ -1,8 +1,9 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify/services/audio.dart';
 import 'package:spotify/views/search.dart';
 import 'package:spotify/views/tiny_player/tiny_player.dart';
 import 'package:spotify/views/your_library.dart';
-
 import 'home.dart';
 
 class PageSelector extends StatefulWidget {
@@ -14,16 +15,47 @@ class PageSelector extends StatefulWidget {
 
 class _PageSelectorState extends State<PageSelector> {
   int _selectedIndex = 0;
-
   PageController pageController = PageController();
+
+  AudioController player = AudioController();
+  int timeProgress = 0;
+  int audioDuration = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    player.init();
+    player.audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
+      setState(() {
+        player.audioPlayerState = s;
+      });
+    });
+    player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+      setState(() {
+        timeProgress = p.inMilliseconds;
+      });
+    });
+    player.audioPlayer.onDurationChanged.listen((Duration d) {
+      setState(() {
+        audioDuration = d.inMilliseconds;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       body: PageView(
         controller: pageController,
-        children: const [
-          Home(),
+        children: [
+          Home(player: player),
           Search(),
           YourLibrary(),
         ],
@@ -59,7 +91,7 @@ class _PageSelectorState extends State<PageSelector> {
               onTap: changeItem,
             ),
           ),
-          Positioned(top: 12, child: TinyPlayer()),
+          Positioned(top: 12, child: TinyPlayer(player: player, audioDuration: audioDuration)),
         ],
       ),
     );
