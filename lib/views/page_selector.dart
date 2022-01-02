@@ -4,6 +4,7 @@ import 'package:spotify/services/audio.dart';
 import 'package:spotify/views/search.dart';
 import 'package:spotify/views/tiny_player/tiny_player.dart';
 import 'package:spotify/views/your_library.dart';
+import 'elements/artist.dart';
 import 'home.dart';
 
 class PageSelector extends StatefulWidget {
@@ -35,7 +36,7 @@ class _PageSelectorState extends State<PageSelector> {
         timeProgress = p.inMilliseconds;
       });
     });
-    player.audioPlayer.onDurationChanged.listen((Duration d) {
+    player.audioPlayer.onDurationChanged.listen((Duration d) async {
       setState(() {
         audioDuration = d.inMilliseconds;
       });
@@ -44,7 +45,7 @@ class _PageSelectorState extends State<PageSelector> {
 
   @override
   void dispose() {
-    player.dispose();
+    //player.dispose();
     super.dispose();
   }
 
@@ -58,6 +59,7 @@ class _PageSelectorState extends State<PageSelector> {
           Home(player: player),
           Search(),
           YourLibrary(),
+          ArtistPage(),
         ],
       ),
       bottomNavigationBar: Stack(
@@ -91,7 +93,9 @@ class _PageSelectorState extends State<PageSelector> {
               onTap: changeItem,
             ),
           ),
-          Positioned(top: 12, child: TinyPlayer(player: player, audioDuration: audioDuration)),
+          AudioController.playingSong != null
+              ? Positioned(top: 12, child: TinyPlayer(player: player, audioDuration: audioDuration))
+              : Container(),
         ],
       ),
     );
@@ -103,5 +107,4 @@ class _PageSelectorState extends State<PageSelector> {
     });
     pageController.jumpToPage(index);
   }
-
 }

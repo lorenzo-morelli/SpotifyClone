@@ -18,7 +18,8 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/music/music.mp3
+    - assets/music/
+    - assets/music/coldplay/
   uses-material-design: true
   fonts:
     - family: Circular

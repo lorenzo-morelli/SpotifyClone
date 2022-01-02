@@ -13,7 +13,6 @@ class TinyPlayer extends StatefulWidget {
 }
 
 class _TinyPlayerState extends State<TinyPlayer> {
-
   @override
   void initState() {
     widget.player.audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
@@ -28,6 +27,7 @@ class _TinyPlayerState extends State<TinyPlayer> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -47,14 +47,15 @@ class _TinyPlayerState extends State<TinyPlayer> {
                 Row(
                   children: [
                     SizedBox(
-                      height: 54,
+                      height: 53,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 7, bottom: 7, left: 7, right: 10),
                         child: ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: Image.network(
-                              'https://static.wixstatic.com/media/66ca42_aef55d220d214050a3f01a72eb2ac9c2~mv2.jpeg/v1/fill/w_900,h_900,al_c,q_90/66ca42_aef55d220d214050a3f01a72eb2ac9c2~mv2.jpeg',
-                            )),
+                          borderRadius: BorderRadius.circular(4),
+                          child: AudioController.playingSong?.album.urlAlbum != null
+                              ? Image.network(AudioController.playingSong?.album.urlAlbum ?? '')
+                              : Container(),
+                        ),
                       ),
                     ),
                     Column(
@@ -62,11 +63,11 @@ class _TinyPlayerState extends State<TinyPlayer> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Why Are Sundays So Depressing',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          AudioController.playingSong?.songName ?? '',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Text('The Strokes', style: TextStyle(color: Colors.grey[300], fontSize: 13)),
+                        Text(AudioController.playingSong?.artist.artistName ?? '', style: TextStyle(color: Colors.grey[300], fontSize: 13)),
                       ],
                     ),
                   ],
@@ -83,7 +84,7 @@ class _TinyPlayerState extends State<TinyPlayer> {
                       iconSize: 35,
                       icon: widget.player.audioPlayerState == PlayerState.PLAYING
                           ? Icon(Icons.pause, color: Colors.white)
-                      : Icon(Icons.play_arrow, color: Colors.white),
+                          : Icon(Icons.play_arrow, color: Colors.white),
                     ),
                     SizedBox(width: 5),
                   ],
@@ -94,12 +95,13 @@ class _TinyPlayerState extends State<TinyPlayer> {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: SliderTheme(
                 data: SliderThemeData(
-                  trackHeight: 0.5,
+                  trackHeight: 2,
+                  trackShape: RectangularSliderTrackShape(),
                   overlayShape: SliderComponentShape.noOverlay,
                   thumbShape: RoundSliderThumbShape(enabledThumbRadius: 0),
                 ),
                 child: Slider(
-                  inactiveColor: Colors.transparent,
+                  inactiveColor: Colors.white24,
                   activeColor: Colors.white,
                   min: 0.0,
                   max: (widget.audioDuration / 1000).floorToDouble(),

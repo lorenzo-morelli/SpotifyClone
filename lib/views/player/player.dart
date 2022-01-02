@@ -50,16 +50,16 @@ class _PlayerState extends State<Player> {
                       onTap: () => Navigator.pop(context),
                     ),
                     Column(
-                      children: const [
+                      children: [
                         Text('PLAYING FROM ALBUM', style: TextStyle(fontSize: 12, letterSpacing: 1)),
-                        Text('Parachutes', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(AudioController.playingSong?.album.albumName ?? '', style: TextStyle(fontWeight: FontWeight.w500)),
                       ],
                     ),
                     Icon(Icons.more_vert_sharp, color: Colors.white)
                   ],
                 ),
                 SizedBox(height: 32),
-                Image.network(Constants.parachutesUrl),
+                Image.network(AudioController.playingSong?.album.urlAlbum ?? ''),
                 SizedBox(height: 65),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,8 +67,8 @@ class _PlayerState extends State<Player> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Trouble', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                        Text('Coldplay', style: TextStyle(fontSize: 15, color: Colors.grey[400])),
+                        Text(AudioController.playingSong?.songName ?? "", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        Text(AudioController.playingSong?.artist.artistName ?? '', style: TextStyle(fontSize: 15, color: Colors.grey[400])),
                       ],
                     ),
                     Icon(Icons.favorite, color: Colors.green),
@@ -97,8 +97,8 @@ class _PlayerState extends State<Player> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(widget.player.getTimeString(AudioController.timeProgress), style: TextStyle(color: Colors.grey[400])),
-                      Text(widget.player.getTimeString(widget.audioDuration), style: TextStyle(color: Colors.grey[400])),
+                      Text(widget.player.getTimeString(AudioController.timeProgress) ?? '--:--', style: TextStyle(color: Colors.grey[400])),
+                      Text(widget.player.getTimeString(widget.audioDuration) ?? '--:--', style: TextStyle(color: Colors.grey[400])),
                     ],
                   ),
                 ),
@@ -118,10 +118,7 @@ class _PlayerState extends State<Player> {
                         IconButton(
                           onPressed: () {
                             widget.player.audioPlayerState == PlayerState.PLAYING ? widget.player.pauseMusic() : widget.player.playMusic();
-                            if (mounted) {
-                              setState(() {});
-                            }
-                            ;
+                            setState(() {});
                           },
                           padding: EdgeInsets.zero,
                           iconSize: 90,
