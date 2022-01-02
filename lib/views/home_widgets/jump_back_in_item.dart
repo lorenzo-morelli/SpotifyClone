@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
-import 'package:spotify/views/elements/album.dart';
 
 class JumpBackInItem extends StatefulWidget {
-  const JumpBackInItem({Key? key, required this.album, required this.player}) : super(key: key);
+  const JumpBackInItem({Key? key, required this.album}) : super(key: key);
   final Album album;
-  final AudioController player;
 
   @override
   _JumpBackInItemState createState() => _JumpBackInItemState();
@@ -26,7 +23,10 @@ class _JumpBackInItemState extends State<JumpBackInItem> {
             padding: EdgeInsets.zero,
             iconSize: size,
             icon: Image.network(widget.album.urlAlbum),
-            onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AlbumPage(album: widget.album, player: widget.player))),
+            onPressed: () {
+              Constants.currentAlbum = widget.album;
+              Constants.navigatorKey.currentState!.pushNamed('/album');
+            },
           ),
           SizedBox(height: 10),
           SizedBox(

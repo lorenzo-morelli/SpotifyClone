@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/services/audio.dart';
 import 'package:spotify/views/home_widgets/usual_item.dart';
 import 'package:spotify/views/search_widgets/genres_item.dart';
 
@@ -58,7 +59,6 @@ class Constants {
   static Song highSpeed = Song(8, 'High Speed', parachutes, coldplay, 'music/coldplay/Coldplay_-_High_Speed.mp3');
   static Song weNeverChange = Song(9, 'We Never Change', parachutes, coldplay, 'music/coldplay/Coldplay_-_We_Never_Change.mp3');
   static Song everythingsNotLost = Song(10, "Everything's Not Lost", parachutes, coldplay, 'music/coldplay/Coldplay_-_Everything´s_Not_Lost.mp3');
-  static Song eskere = Song(12, 'porco', Album('dio', 'cane', Artist('vacco dio')), Artist('lamadonna'), 'eskere');
 
   static List<Song> allSongs = [
     dontPanic,
@@ -71,8 +71,11 @@ class Constants {
     highSpeed,
     weNeverChange,
     everythingsNotLost,
-    eskere
   ];
+
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static Album? currentAlbum;
+  static AudioController player = AudioController();
 }
 
 class Song {

@@ -10,6 +10,8 @@ class ArtistPage extends StatefulWidget {
 class _ArtistPageState extends State<ArtistPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Icon(Icons.album, color: Colors.black),
+    );
   }
 }

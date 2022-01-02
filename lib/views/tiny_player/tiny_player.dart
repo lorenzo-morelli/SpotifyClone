@@ -1,11 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify/services/audio.dart';
+import 'package:spotify/shared/constants.dart';
 import 'package:spotify/views/player/player.dart';
 
 class TinyPlayer extends StatefulWidget {
-  const TinyPlayer({Key? key, required this.player, required this.audioDuration}) : super(key: key);
-  final AudioController player;
+  const TinyPlayer({Key? key, required this.audioDuration}) : super(key: key);
   final int audioDuration;
 
   @override
@@ -15,12 +15,12 @@ class TinyPlayer extends StatefulWidget {
 class _TinyPlayerState extends State<TinyPlayer> {
   @override
   void initState() {
-    widget.player.audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
+    Constants.player.audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
       setState(() {
-        widget.player.audioPlayerState = s;
+        Constants.player.audioPlayerState = s;
       });
     });
-    widget.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+    Constants.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
       setState(() {
         AudioController.timeProgress = p.inMilliseconds;
       });
@@ -78,11 +78,11 @@ class _TinyPlayerState extends State<TinyPlayer> {
                     Icon(Icons.favorite, color: Colors.green, size: 26),
                     IconButton(
                       onPressed: () {
-                        widget.player.audioPlayerState == PlayerState.PLAYING ? widget.player.pauseMusic() : widget.player.playMusic();
+                        Constants.player.audioPlayerState == PlayerState.PLAYING ? Constants.player.pauseMusic() : Constants.player.playMusic();
                         setState(() {});
                       },
                       iconSize: 35,
-                      icon: widget.player.audioPlayerState == PlayerState.PLAYING
+                      icon: Constants.player.audioPlayerState == PlayerState.PLAYING
                           ? Icon(Icons.pause, color: Colors.white)
                           : Icon(Icons.play_arrow, color: Colors.white),
                     ),
@@ -107,7 +107,7 @@ class _TinyPlayerState extends State<TinyPlayer> {
                   max: (widget.audioDuration / 1000).floorToDouble(),
                   value: (AudioController.timeProgress / 1000).floorToDouble(),
                   onChanged: (val) {
-                    widget.player.seekToSec(val.toInt());
+                    Constants.player.seekToSec(val.toInt());
                   },
                 ),
               ),
@@ -118,7 +118,7 @@ class _TinyPlayerState extends State<TinyPlayer> {
       onTap: () => showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        builder: (context) => Player(player: widget.player, audioDuration: widget.audioDuration),
+        builder: (context) => Player(audioDuration: widget.audioDuration),
       ),
     );
   }

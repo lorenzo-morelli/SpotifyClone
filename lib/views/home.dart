@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 import 'home_widgets/jump_back_in.dart';
 import 'home_widgets/usual.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key, required this.player}) : super(key: key);
-  final AudioController player;
+  const Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -47,7 +45,7 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.zero,
                       icon: Icon(Icons.settings_outlined),
                       color: Colors.white,
-                      onPressed: () => widget.player.changeSong(Constants.trouble),
+                      onPressed: () => Constants.player.changeSong(Constants.trouble),
                     ),
                   ],
                 ),
@@ -57,11 +55,11 @@ class _HomeState extends State<Home> {
           SizedBox(height: 15),
           Usual(),
           SizedBox(height: 35),
-          JumpBackIn(player: widget.player),
+          JumpBackIn(),
           SizedBox(height: 35),
-          JumpBackIn(player: widget.player),
+          JumpBackIn(),
           SizedBox(height: 35),
-          JumpBackIn(player: widget.player),
+          JumpBackIn(),
         ],
       ),
     ));

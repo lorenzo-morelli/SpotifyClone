@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 import 'package:spotify/views/home_widgets/jump_back_in_item.dart';

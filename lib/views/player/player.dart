@@ -4,8 +4,7 @@ import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 
 class Player extends StatefulWidget {
-  const Player({Key? key, required this.player, required this.audioDuration}) : super(key: key);
-  final AudioController player;
+  const Player({Key? key, required this.audioDuration}) : super(key: key);
   final int audioDuration;
 
   @override
@@ -15,7 +14,7 @@ class Player extends StatefulWidget {
 class _PlayerState extends State<Player> {
   @override
   void initState() {
-    widget.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+    Constants.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
       if (mounted) {
         setState(() => AudioController.timeProgress = p.inMilliseconds);
       }
@@ -67,7 +66,14 @@ class _PlayerState extends State<Player> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AudioController.playingSong?.songName ?? "", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        GestureDetector(
+                          child: Text(AudioController.playingSong?.songName ?? "",
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Constants.navigatorKey.currentState!.pushNamed('/album');
+                          },
+                        ),
                         Text(AudioController.playingSong?.artist.artistName ?? '', style: TextStyle(fontSize: 15, color: Colors.grey[400])),
                       ],
                     ),
@@ -88,7 +94,7 @@ class _PlayerState extends State<Player> {
                     max: (widget.audioDuration / 1000).floorToDouble(),
                     value: (AudioController.timeProgress / 1000).floorToDouble(),
                     onChanged: (val) {
-                      widget.player.seekToSec(val.toInt());
+                      Constants.player.seekToSec(val.toInt());
                     },
                   ),
                 ),
@@ -97,8 +103,9 @@ class _PlayerState extends State<Player> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(widget.player.getTimeString(AudioController.timeProgress) ?? '--:--', style: TextStyle(color: Colors.grey[400])),
-                      Text(widget.player.getTimeString(widget.audioDuration) ?? '--:--', style: TextStyle(color: Colors.grey[400])),
+                      Text(Constants.player.getTimeString(AudioController.timeProgress) ?? '--:--',
+                          style: TextStyle(color: Colors.grey[400])),
+                      Text(Constants.player.getTimeString(widget.audioDuration) ?? '--:--', style: TextStyle(color: Colors.grey[400])),
                     ],
                   ),
                 ),
@@ -112,17 +119,19 @@ class _PlayerState extends State<Player> {
                         IconButton(
                           icon: Icon(Icons.fast_rewind, color: Colors.white),
                           iconSize: 40,
-                          onPressed: () => widget.player.seekToSec(0),
+                          onPressed: () => Constants.player.seekToSec(0),
                         ),
                         SizedBox(width: 20),
                         IconButton(
                           onPressed: () {
-                            widget.player.audioPlayerState == PlayerState.PLAYING ? widget.player.pauseMusic() : widget.player.playMusic();
+                            Constants.player.audioPlayerState == PlayerState.PLAYING
+                                ? Constants.player.pauseMusic()
+                                : Constants.player.playMusic();
                             setState(() {});
                           },
                           padding: EdgeInsets.zero,
                           iconSize: 90,
-                          icon: widget.player.audioPlayerState == PlayerState.PLAYING
+                          icon: Constants.player.audioPlayerState == PlayerState.PLAYING
                               ? Icon(Icons.pause_circle_filled, color: Colors.white)
                               : Icon(Icons.play_circle_filled, color: Colors.white),
                         ),

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 import 'package:spotify/views/home_widgets/jump_back_in_item.dart';
 
 class JumpBackIn extends StatefulWidget {
-  const JumpBackIn({Key? key, required this.player}) : super(key: key);
-  final AudioController player;
+  const JumpBackIn({Key? key}) : super(key: key);
+
   @override
   _JumpBackInState createState() => _JumpBackInState();
 }
@@ -26,10 +24,10 @@ class _JumpBackInState extends State<JumpBackIn> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                JumpBackInItem(album: Constants.aveteRagioneTutti, player: widget.player),
-                JumpBackInItem(album: Constants.theDarkSideOfTheMoon, player: widget.player),
-                JumpBackInItem(album: Constants.parachutes, player: widget.player),
-                JumpBackInItem(album: Constants.anEveningWithSilkSonic, player: widget.player),
+                JumpBackInItem(album: Constants.aveteRagioneTutti),
+                JumpBackInItem(album: Constants.theDarkSideOfTheMoon, ),
+                JumpBackInItem(album: Constants.parachutes),
+                JumpBackInItem(album: Constants.anEveningWithSilkSonic),
               ],
             ),
           ),
