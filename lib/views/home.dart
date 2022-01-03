@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:spotify/shared/constants.dart';
 import 'home_widgets/jump_back_in.dart';
 import 'home_widgets/usual.dart';
@@ -31,20 +33,23 @@ class _HomeState extends State<Home> {
                   children: [
                     IconButton(
                       padding: EdgeInsets.zero,
-                      icon: Icon(Icons.notifications_on_outlined),
+                      icon: Icon(LineIcons.bellAlt),
+                      iconSize: 30,
                       color: Colors.white,
                       onPressed: () {},
                     ),
                     IconButton(
                       padding: EdgeInsets.zero,
-                      icon: Icon(Icons.history_outlined),
+                      icon: Icon(LineIcons.history),
+                      iconSize: 30,
                       color: Colors.white,
                       onPressed: () {},
                     ),
                     IconButton(
                       padding: EdgeInsets.zero,
-                      icon: Icon(Icons.settings_outlined),
+                      icon: Icon(SimpleLineIcons.settings),
                       color: Colors.white,
+                      iconSize: 25,
                       onPressed: () => Constants.player.changeSong(Constants.trouble),
                     ),
                   ],

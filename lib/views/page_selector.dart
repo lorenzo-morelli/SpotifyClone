@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 import 'package:spotify/views/search.dart';
@@ -107,23 +108,23 @@ class _PageSelectorState extends State<PageSelector> {
               items: [
                 BottomNavigationBarItem(
                   icon: IconButton(
+                    icon: Icon(Foundation.home),
                     alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.zero,
-                    iconSize: 32,
+                    padding: EdgeInsets.only(bottom: 5),
+                    iconSize: 27,
                     onPressed: () {
                       changeItem(0);
                       Constants.navigatorKey.currentState!.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                     },
-                    icon: Icon(Icons.home),
                   ),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
                   icon: IconButton(
-                    icon: Icon(Icons.search),
+                    icon: Icon(AntDesign.search1),
                     alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.zero,
-                    iconSize: 32,
+                    padding: EdgeInsets.only(bottom: 5),
+                    iconSize: 25,
                     onPressed: () {
                       changeItem(1);
                       Constants.navigatorKey.currentState!.pushNamedAndRemoveUntil('/search', (Route<dynamic> route) => false);
@@ -133,10 +134,10 @@ class _PageSelectorState extends State<PageSelector> {
                 ),
                 BottomNavigationBarItem(
                     icon: IconButton(
-                      icon: Icon(Icons.library_add),
+                      icon: Icon(Ionicons.md_book),
                       alignment: Alignment.bottomCenter,
-                      padding: EdgeInsets.zero,
-                      iconSize: 32,
+                      padding: EdgeInsets.only(bottom: 5),
+                      iconSize: 27,
                       onPressed: () {
                         changeItem(2);
                         Constants.navigatorKey.currentState!.pushNamedAndRemoveUntil('/your_library', (Route<dynamic> route) => false);

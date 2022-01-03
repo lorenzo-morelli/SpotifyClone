@@ -29,7 +29,7 @@ class _SearchState extends State<Search> {
               delegate: SliverChildListDelegate([
                 SizedBox(height: 50),
                 Text('Search', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800)),
-                SizedBox(height: 18),
+                SizedBox(height: 45),
               ]),
             ),
             SliverPersistentHeader(

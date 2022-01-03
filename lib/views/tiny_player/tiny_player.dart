@@ -1,5 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 import 'package:spotify/views/player/player.dart';
@@ -75,7 +77,7 @@ class _TinyPlayerState extends State<TinyPlayer> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Icons.favorite, color: Colors.green, size: 26),
+                    Icon(EvilIcons.heart, color: Colors.white, size: 32),
                     IconButton(
                       onPressed: () {
                         Constants.player.audioPlayerState == PlayerState.PLAYING ? Constants.player.pauseMusic() : Constants.player.playMusic();
@@ -84,7 +86,7 @@ class _TinyPlayerState extends State<TinyPlayer> {
                       iconSize: 35,
                       icon: Constants.player.audioPlayerState == PlayerState.PLAYING
                           ? Icon(Icons.pause, color: Colors.white)
-                          : Icon(Icons.play_arrow, color: Colors.white),
+                          : Icon(Entypo.controller_play, color: Colors.white, size: 32),
                     ),
                     SizedBox(width: 5),
                   ],

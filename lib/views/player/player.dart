@@ -1,5 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 
@@ -45,7 +47,7 @@ class _PlayerState extends State<Player> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      child: Icon(Icons.arrow_downward, color: Colors.white),
+                      child: Icon(Entypo.chevron_thin_down, color: Colors.white, size: 25),
                       onTap: () => Navigator.pop(context),
                     ),
                     Column(
@@ -54,12 +56,12 @@ class _PlayerState extends State<Player> {
                         Text(AudioController.playingSong?.album.albumName ?? '', style: TextStyle(fontWeight: FontWeight.w500)),
                       ],
                     ),
-                    Icon(Icons.more_vert_sharp, color: Colors.white)
+                    Icon(Feather.more_vertical, color: Colors.white)
                   ],
                 ),
-                SizedBox(height: 32),
+                SizedBox(height: 45),
                 Image.network(AudioController.playingSong?.album.urlAlbum ?? ''),
-                SizedBox(height: 65),
+                SizedBox(height: 45),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -113,15 +115,15 @@ class _PlayerState extends State<Player> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.shuffle_rounded, color: Colors.white, size: 25),
+                    Icon(SimpleLineIcons.shuffle, color: Colors.white, size: 25),
                     Row(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.fast_rewind, color: Colors.white),
-                          iconSize: 40,
+                          icon: Icon(Ionicons.ios_skip_backward, color: Colors.white),
+                          iconSize: 35,
                           onPressed: () => Constants.player.seekToSec(0),
                         ),
-                        SizedBox(width: 20),
+                        SizedBox(width: 16),
                         IconButton(
                           onPressed: () {
                             Constants.player.audioPlayerState == PlayerState.PLAYING
@@ -132,14 +134,18 @@ class _PlayerState extends State<Player> {
                           padding: EdgeInsets.zero,
                           iconSize: 90,
                           icon: Constants.player.audioPlayerState == PlayerState.PLAYING
-                              ? Icon(Icons.pause_circle_filled, color: Colors.white)
-                              : Icon(Icons.play_circle_filled, color: Colors.white),
+                              ? Icon(MaterialIcons.pause_circle_filled, color: Colors.white, size: 90)
+                              : Icon(MaterialIcons.play_circle_filled, color: Colors.white, size: 90),
                         ),
-                        SizedBox(width: 20),
-                        Icon(Icons.fast_forward, color: Colors.white, size: 40),
+                        SizedBox(width: 16),
+                        IconButton(
+                          icon: Icon(Ionicons.ios_skip_forward, color: Colors.white),
+                          iconSize: 35,
+                          onPressed: () {},
+                        ),
                       ],
                     ),
-                    Icon(Icons.repeat_outlined, color: Colors.white, size: 25),
+                    Icon(Ionicons.ios_repeat, color: Colors.white, size: 32),
                   ],
                 ),
                 SizedBox(height: 12),
@@ -155,7 +161,7 @@ class _PlayerState extends State<Player> {
                     ),
                     Row(
                       children: const [
-                        Icon(Icons.share_outlined, color: Colors.white, size: 20),
+                        Icon(EvilIcons.share_google, color: Colors.white, size: 28),
                         SizedBox(width: 25),
                         Icon(Icons.queue_music, color: Colors.white),
                       ],

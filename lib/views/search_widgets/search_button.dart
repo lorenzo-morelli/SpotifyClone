@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 
 class SearchButton extends StatelessWidget {
   const SearchButton({Key? key}) : super(key: key);
@@ -13,8 +15,9 @@ class SearchButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: const [
-          Icon(Icons.search),
+          Icon(AntDesign.search1, size: 25),
           SizedBox(width: 10),
           Text('Artists, songs, podcasts', style: TextStyle(color: Color(0xff535353), fontWeight: FontWeight.bold, fontSize: 16)),
         ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 
@@ -71,14 +73,14 @@ class _AlbumPageState extends State<AlbumPage> {
                   children: [
                     Icon(Icons.favorite, color: Constants.green),
                     SizedBox(width: 20),
-                    Icon(Icons.download, color: Colors.white),
+                    Icon(LineIcons.download, color: Colors.white70),
                     SizedBox(width: 20),
-                    Icon(Icons.more_vert, color: Colors.white),
+                    Icon(Feather.more_vertical, color: Colors.white70, size: 23),
                   ],
                 ),
                 IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Icon(Icons.play_circle_rounded, color: Constants.green),
+                  icon: Icon(MaterialIcons.play_circle_filled, color: Constants.green),
                   iconSize: 60,
                   onPressed: () {},
                 ),
@@ -99,10 +101,11 @@ class _AlbumPageState extends State<AlbumPage> {
                         Text(songList[index].songName,
                             style: TextStyle(
                                 fontSize: 16, color: AudioController.playingSong == songList[index] ? Constants.green : Colors.white)),
-                        Text(songList[index].artist.artistName, style: TextStyle(color: Colors.white70)),
+                        SizedBox(height: 3),
+                        Text(songList[index].artist.artistName, style: TextStyle(color: Colors.white70, fontSize: 13.7)),
                       ],
                     ),
-                    Icon(Icons.more_vert, color: Colors.white),
+                    Icon(Feather.more_vertical, color: Colors.white70),
                   ],
                 ),
               ),
