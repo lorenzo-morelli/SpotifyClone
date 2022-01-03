@@ -12,6 +12,7 @@ dependencies:
   audioplayers: ^0.20.1
   flutter_icons: ^1.1.0
   line_icons: ^2.0.1
+  palette_generator: ^0.3.2
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +23,7 @@ flutter:
   assets:
     - assets/music/
     - assets/music/coldplay/
+    - assets/music/canova/
   uses-material-design: true
   fonts:
     - family: Circular

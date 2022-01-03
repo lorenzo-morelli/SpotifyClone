@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:spotify/services/audio.dart';
 import 'package:spotify/shared/constants.dart';
 import 'home_widgets/jump_back_in.dart';
 import 'home_widgets/usual.dart';
@@ -50,7 +51,7 @@ class _HomeState extends State<Home> {
                       icon: Icon(SimpleLineIcons.settings),
                       color: Colors.white,
                       iconSize: 25,
-                      onPressed: () => Constants.player.changeSong(Constants.trouble),
+                      onPressed: () {},
                     ),
                   ],
                 ),

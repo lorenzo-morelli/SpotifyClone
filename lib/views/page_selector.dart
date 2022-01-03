@@ -2,7 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:spotify/services/audio.dart';
-import 'package:spotify/shared/constants.dart';
+import 'package:spotify/services/navigation.dart';
 import 'package:spotify/views/search.dart';
 import 'package:spotify/views/tiny_player/tiny_player.dart';
 import 'package:spotify/views/your_library.dart';
@@ -24,18 +24,20 @@ class _PageSelectorState extends State<PageSelector> {
   @override
   void initState() {
     super.initState();
-    Constants.player.init();
-    Constants.player.audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
+    AudioController.player.init();
+    AudioController.player.audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
       setState(() {
-        Constants.player.audioPlayerState = s;
+        AudioController.player.audioPlayerState = s;
       });
     });
-    Constants.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+
+    AudioController.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
       setState(() {
         timeProgress = p.inMilliseconds;
       });
     });
-    Constants.player.audioPlayer.onDurationChanged.listen((Duration d) async {
+
+    AudioController.player.audioPlayer.onDurationChanged.listen((Duration d) async {
       setState(() {
         audioDuration = d.inMilliseconds;
       });
@@ -44,7 +46,7 @@ class _PageSelectorState extends State<PageSelector> {
 
   @override
   void dispose() {
-    Constants.player.dispose();
+    AudioController.player.dispose();
     super.dispose();
   }
 
@@ -54,14 +56,14 @@ class _PageSelectorState extends State<PageSelector> {
       extendBody: true,
       body: WillPopScope(
         onWillPop: () async {
-          if (Constants.navigatorKey.currentState!.canPop()) {
-            Constants.navigatorKey.currentState!.pop();
+          if (Navigation.navigatorKey.currentState!.canPop()) {
+            Navigation.navigatorKey.currentState!.pop();
             return false;
           }
           return true;
         },
         child: Navigator(
-          key: Constants.navigatorKey,
+          key: Navigation.navigatorKey,
           initialRoute: '/',
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;
@@ -77,7 +79,7 @@ class _PageSelectorState extends State<PageSelector> {
                 builder = (BuildContext context) => YourLibrary();
                 break;
               case '/album':
-                builder = (BuildContext context) => AlbumPage(album: Constants.currentAlbum!);
+                builder = (BuildContext context) => AlbumPage(album: Playing.currentAlbum!);
                 break;
               default:
                 throw Exception('Invalid route: ${settings.name}');
@@ -114,7 +116,7 @@ class _PageSelectorState extends State<PageSelector> {
                     iconSize: 27,
                     onPressed: () {
                       changeItem(0);
-                      Constants.navigatorKey.currentState!.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                      Navigation.navigatorKey.currentState!.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                     },
                   ),
                   label: 'Home',
@@ -127,7 +129,7 @@ class _PageSelectorState extends State<PageSelector> {
                     iconSize: 25,
                     onPressed: () {
                       changeItem(1);
-                      Constants.navigatorKey.currentState!.pushNamedAndRemoveUntil('/search', (Route<dynamic> route) => false);
+                      Navigation.navigatorKey.currentState!.pushNamedAndRemoveUntil('/search', (Route<dynamic> route) => false);
                     },
                   ),
                   label: 'Search',
@@ -140,7 +142,7 @@ class _PageSelectorState extends State<PageSelector> {
                       iconSize: 27,
                       onPressed: () {
                         changeItem(2);
-                        Constants.navigatorKey.currentState!.pushNamedAndRemoveUntil('/your_library', (Route<dynamic> route) => false);
+                        Navigation.navigatorKey.currentState!.pushNamedAndRemoveUntil('/your_library', (Route<dynamic> route) => false);
                       },
                     ),
                     label: 'Your library'),
@@ -156,7 +158,7 @@ class _PageSelectorState extends State<PageSelector> {
               onTap: changeItem,
             ),
           ),
-          AudioController.playingSong != null ? Positioned(top: 12, child: TinyPlayer(audioDuration: audioDuration)) : Container(),
+          Playing.playingSong != null ? Positioned(top: 12, child: TinyPlayer(audioDuration: audioDuration)) : Container(),
         ],
       ),
     );

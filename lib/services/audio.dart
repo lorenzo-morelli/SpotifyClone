@@ -1,5 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:spotify/shared/constants.dart';
+import 'package:spotify/shared/elements.dart';
 
 class AudioController {
   AudioPlayer audioPlayer = AudioPlayer();
@@ -7,7 +7,7 @@ class AudioController {
   late AudioCache audioCache;
   int audioDuration = 0;
   static int timeProgress = 0;
-  static Song? playingSong;
+  static AudioController player = AudioController();
 
   //AudioController(this.filePath);
 
@@ -23,7 +23,7 @@ class AudioController {
   }
 
   void playMusic() async {
-    await audioCache.play(playingSong!.filePath);
+    await audioCache.play(Playing.playingSong!.filePath);
   }
 
   void pauseMusic() async {
@@ -32,8 +32,8 @@ class AudioController {
 
   void changeSong(Song song) async {
     await audioCache.play(song.filePath);
-    playingSong = song;
-    print(playingSong?.album.albumName);
+    Playing.playingSong = song;
+    print(Playing.playingSong?.album.albumName);
     seekToSec(0);
   }
 
@@ -49,4 +49,10 @@ class AudioController {
     return '$minutes:$seconds'; // Returns a string with the format mm:ss
   }
 
+}
+
+class Playing {
+  static Song? playingSong;
+  static Album? currentAlbum;
+  static List<Song> queue = [];
 }

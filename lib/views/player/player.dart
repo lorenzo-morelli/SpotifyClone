@@ -2,21 +2,26 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:spotify/services/audio.dart';
+import 'package:spotify/services/colors.dart';
+import 'package:spotify/services/navigation.dart';
 import 'package:spotify/shared/constants.dart';
 
 class Player extends StatefulWidget {
-  const Player({Key? key, required this.audioDuration}) : super(key: key);
+  const Player({Key? key, required this.audioDuration, required this.backgroundColor}) : super(key: key);
   final int audioDuration;
+  final Color backgroundColor;
 
   @override
   _PlayerState createState() => _PlayerState();
 }
 
 class _PlayerState extends State<Player> {
+
   @override
   void initState() {
-    Constants.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+    AudioController.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
       if (mounted) {
         setState(() => AudioController.timeProgress = p.inMilliseconds);
       }
@@ -53,14 +58,14 @@ class _PlayerState extends State<Player> {
                     Column(
                       children: [
                         Text('PLAYING FROM ALBUM', style: TextStyle(fontSize: 12, letterSpacing: 1)),
-                        Text(AudioController.playingSong?.album.albumName ?? '', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(Playing.playingSong?.album.albumName ?? '', style: TextStyle(fontWeight: FontWeight.w500)),
                       ],
                     ),
                     Icon(Feather.more_vertical, color: Colors.white)
                   ],
                 ),
                 SizedBox(height: 45),
-                Image.network(AudioController.playingSong?.album.urlAlbum ?? ''),
+                Image.network(Playing.playingSong?.album.urlAlbum ?? ''),
                 SizedBox(height: 45),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,14 +74,14 @@ class _PlayerState extends State<Player> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GestureDetector(
-                          child: Text(AudioController.playingSong?.songName ?? "",
+                          child: Text(Playing.playingSong?.songName ?? "",
                               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                           onTap: () {
                             Navigator.of(context).pop();
-                            Constants.navigatorKey.currentState!.pushNamed('/album');
+                            Navigation.navigatorKey.currentState!.pushNamed('/album');
                           },
                         ),
-                        Text(AudioController.playingSong?.artist.artistName ?? '', style: TextStyle(fontSize: 15, color: Colors.grey[400])),
+                        Text(Playing.playingSong?.artist.artistName ?? '', style: TextStyle(fontSize: 15, color: Colors.grey[400])),
                       ],
                     ),
                     Icon(Icons.favorite, color: Colors.green),
@@ -86,7 +91,7 @@ class _PlayerState extends State<Player> {
                 SliderTheme(
                   data: SliderThemeData(
                     thumbShape: RoundSliderThumbShape(enabledThumbRadius: 5),
-                    trackHeight: 1.3,
+                    trackHeight: 1.8,
                     overlayShape: SliderComponentShape.noOverlay,
                   ),
                   child: Slider(
@@ -96,7 +101,7 @@ class _PlayerState extends State<Player> {
                     max: (widget.audioDuration / 1000).floorToDouble(),
                     value: (AudioController.timeProgress / 1000).floorToDouble(),
                     onChanged: (val) {
-                      Constants.player.seekToSec(val.toInt());
+                      AudioController.player.seekToSec(val.toInt());
                     },
                   ),
                 ),
@@ -105,9 +110,9 @@ class _PlayerState extends State<Player> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(Constants.player.getTimeString(AudioController.timeProgress) ?? '--:--',
+                      Text(AudioController.player.getTimeString(AudioController.timeProgress) ?? '--:--',
                           style: TextStyle(color: Colors.grey[400])),
-                      Text(Constants.player.getTimeString(widget.audioDuration) ?? '--:--', style: TextStyle(color: Colors.grey[400])),
+                      Text(AudioController.player.getTimeString(widget.audioDuration) ?? '--:--', style: TextStyle(color: Colors.grey[400])),
                     ],
                   ),
                 ),
@@ -121,19 +126,19 @@ class _PlayerState extends State<Player> {
                         IconButton(
                           icon: Icon(Ionicons.ios_skip_backward, color: Colors.white),
                           iconSize: 35,
-                          onPressed: () => Constants.player.seekToSec(0),
+                          onPressed: () => AudioController.player.seekToSec(0),
                         ),
                         SizedBox(width: 16),
                         IconButton(
                           onPressed: () {
-                            Constants.player.audioPlayerState == PlayerState.PLAYING
-                                ? Constants.player.pauseMusic()
-                                : Constants.player.playMusic();
+                            AudioController.player.audioPlayerState == PlayerState.PLAYING
+                                ? AudioController.player.pauseMusic()
+                                : AudioController.player.playMusic();
                             setState(() {});
                           },
                           padding: EdgeInsets.zero,
                           iconSize: 90,
-                          icon: Constants.player.audioPlayerState == PlayerState.PLAYING
+                          icon: AudioController.player.audioPlayerState == PlayerState.PLAYING
                               ? Icon(MaterialIcons.pause_circle_filled, color: Colors.white, size: 90)
                               : Icon(MaterialIcons.play_circle_filled, color: Colors.white, size: 90),
                         ),
@@ -174,7 +179,7 @@ class _PlayerState extends State<Player> {
                     padding: EdgeInsets.all(20),
                     height: 400,
                     decoration: BoxDecoration(
-                      color: Color(0xffc2822f),
+                      color: widget.backgroundColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
