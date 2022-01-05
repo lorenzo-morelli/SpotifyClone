@@ -16,10 +16,13 @@ class AlbumPage extends StatefulWidget {
 }
 
 class _AlbumPageState extends State<AlbumPage> {
-  late Color appBarColor;
+  Color appBarColor = Constants.grey;
 
   @override
   void initState() {
+    ColorProvider.updatePaletteGenerator(Image.network(widget.album.urlAlbum)).then((color) {
+      setState(() =>  appBarColor = color);
+    });
     AudioController.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
       if (mounted) {
         setState(() => AudioController.timeProgress = p.inMilliseconds);
@@ -33,109 +36,99 @@ class _AlbumPageState extends State<AlbumPage> {
     List<Song> songList = Constants.allSongs.where((song) => song.album.albumName == widget.album.albumName).toList();
     songList.sort((a, b) => a.number.compareTo(b.number));
 
-    return FutureBuilder<PaletteGenerator>(
-      future: ColorProvider.updatePaletteGenerator(Image.network(widget.album.urlAlbum)),
-      builder: (BuildContext context, AsyncSnapshot<PaletteGenerator> snapshot) {
-        if (!snapshot.hasData) {
-          return Container();
-        } else {
-          appBarColor = snapshot.data!.dominantColor!.color;
-          return Scaffold(
-            backgroundColor: Constants.backgroundColor,
-            body: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  backgroundColor: appBarColor,
-                  pinned: true,
-                  stretch: true,
-                  expandedHeight: 330,
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text(widget.album.albumName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
-                    background: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Image.network(widget.album.urlAlbum),
+    return Scaffold(
+      backgroundColor: Constants.backgroundColor,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: appBarColor,
+            pinned: true,
+            stretch: true,
+            expandedHeight: 330,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(widget.album.albumName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
+              background: FittedBox(
+                fit: BoxFit.cover,
+                child: Image.network(widget.album.urlAlbum),
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 9,
+                        ),
+                        SizedBox(width: 8),
+                        Text(widget.album.artist.artistName, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Text('Album • 2000', style: TextStyle(color: Colors.white54, fontWeight: FontWeight.w300)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.favorite, color: Constants.green),
+                            SizedBox(width: 20),
+                            Icon(LineIcons.download, color: Colors.white70),
+                            SizedBox(width: 20),
+                            Icon(Feather.more_vertical, color: Colors.white70, size: 23),
+                          ],
+                        ),
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: Icon(MaterialIcons.play_circle_filled, color: Constants.green),
+                          iconSize: 60,
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ]),
+          ),
+          SliverList(
+              delegate: SliverChildListDelegate(List.generate(songList.length, (index) {
+                return InkWell(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(songList[index].songName,
+                                style: TextStyle(
+                                    fontSize: 16, color: Playing.playingSong == songList[index] ? Constants.green : Colors.white)),
+                            SizedBox(height: 3),
+                            Text(songList[index].artist.artistName, style: TextStyle(color: Colors.white70, fontSize: 13.7)),
+                          ],
+                        ),
+                        Icon(Feather.more_vertical, color: Colors.white70),
+                      ],
                     ),
                   ),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 9,
-                              ),
-                              SizedBox(width: 8),
-                              Text(widget.album.artist.artistName, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Text('Album • 2000', style: TextStyle(color: Colors.white54, fontWeight: FontWeight.w300)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.favorite, color: Constants.green),
-                                  SizedBox(width: 20),
-                                  Icon(LineIcons.download, color: Colors.white70),
-                                  SizedBox(width: 20),
-                                  Icon(Feather.more_vertical, color: Colors.white70, size: 23),
-                                ],
-                              ),
-                              IconButton(
-                                padding: EdgeInsets.zero,
-                                icon: Icon(MaterialIcons.play_circle_filled, color: Constants.green),
-                                iconSize: 60,
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]),
-                ),
-                SliverList(
-                    delegate: SliverChildListDelegate(List.generate(songList.length, (index) {
-                  return InkWell(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(songList[index].songName,
-                                  style: TextStyle(
-                                      fontSize: 16, color: Playing.playingSong == songList[index] ? Constants.green : Colors.white)),
-                              SizedBox(height: 3),
-                              Text(songList[index].artist.artistName, style: TextStyle(color: Colors.white70, fontSize: 13.7)),
-                            ],
-                          ),
-                          Icon(Feather.more_vertical, color: Colors.white70),
-                        ],
-                      ),
-                    ),
-                    onTap: () => AudioController.player.changeSong(songList[index]),
-                  );
-                }))),
-                SliverList(
-                    delegate: SliverChildListDelegate([
-                  SizedBox(height: 200),
-                ]))
-              ],
-            ),
-          );
-        }
-      },
+                  onTap: () => AudioController.player.changeSong(songList[index]),
+                );
+              }))),
+          SliverList(
+              delegate: SliverChildListDelegate([
+                SizedBox(height: 200),
+              ]))
+        ],
+      ),
     );
   }
 }

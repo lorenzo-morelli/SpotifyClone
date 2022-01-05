@@ -64,11 +64,11 @@ class Constants {
   static Song vitaSociale = Song(1, 'Vita Sociale', aveteRagioneTutti, canova, 'music/canova/Canova_-_Vita_Sociale.mp3');
   static Song brexit = Song(2, 'Brexit', aveteRagioneTutti, canova, 'music/canova/Canova - Brexit.mp3');
   static Song expo = Song(3, 'Expo', aveteRagioneTutti, canova, 'music/canova/Canova - Expo.mp3');
-  static Song laFelicita = Song(4, 'La Felicità', aveteRagioneTutti, canova, 'music/canova/Canova - La Felicità.mp3');
+  static Song laFelicita = Song(4, 'La Felicità', aveteRagioneTutti, canova, 'music/canova/Canova - La felicità.mp3');
   static Song manzarek = Song(5, 'Manzarek', aveteRagioneTutti, canova, 'music/canova/Canova - Manzarek.mp3');
   static Song portovenere = Song(6, 'Portovenere', aveteRagioneTutti, canova, 'music/canova/Canova - Portovenere.mp3');
   static Song aziz = Song(7, 'Aziz', aveteRagioneTutti, canova, 'music/canova/Canova - Aziz.mp3');
-  static Song maradona = Song(8, 'Maradona', aveteRagioneTutti, canova, 'music/canova/Canova - Maradona.mp3');
+  static Song maradona = Song(8, 'Maradona', aveteRagioneTutti, canova, 'music/canova/Canova - Maradona (videotributo).mp3');
   static Song laFesta = Song(9, 'La festa - live', aveteRagioneTutti, canova, 'music/canova/Canova - La festa (live session).mp3');
 
   static List<Song> allSongs = [
