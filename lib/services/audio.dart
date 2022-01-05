@@ -33,7 +33,6 @@ class AudioController {
   void changeSong(Song song) async {
     await audioCache.play(song.filePath);
     Playing.playingSong = song;
-    print(Playing.playingSong?.album.albumName);
     seekToSec(0);
   }
 
