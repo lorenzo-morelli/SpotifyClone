@@ -6,12 +6,13 @@ import 'package:spotify/shared/elements.dart';
 class SearchResult extends StatefulWidget {
   const SearchResult({Key? key, required this.result}) : super(key: key);
   final Elements result;
+
   @override
   _SearchResultState createState() => _SearchResultState();
 }
 
 class _SearchResultState extends State<SearchResult> {
-  dynamic el;
+  var el;
 
   @override
   void initState() {
@@ -36,22 +37,22 @@ class _SearchResultState extends State<SearchResult> {
           ),
           title: Text(el.artistName, style: TextStyle(color: Colors.white)),
           subtitle: Text('Artist', style: TextStyle(color: Color(0xffcccccc))),
-          trailing: Icon(Icons.close, color: Colors.white, size: 30),
+          //trailing: Icon(Icons.close, color: Colors.white, size: 30),
         ),
       );
     }
     if (el is Song) {
       return InkWell(
         child: ListTile(
-          //tileColor: Colors.blue,
+          visualDensity: VisualDensity.comfortable,
           contentPadding: EdgeInsets.all(0),
           leading: SizedBox.square(
-            dimension: 50,
+            dimension: 48,
             child: Image.network(el.album.urlAlbum),
           ),
           title: Text(el.songName, style: TextStyle(color: Colors.white)),
           subtitle: Text('Song', style: TextStyle(color: Color(0xffcccccc))),
-          trailing: Icon(Icons.close, color: Colors.white, size: 30),
+          //trailing: Icon(Icons.close, color: Colors.white, size: 30),
         ),
         onTap: () => AudioController.player.changeSong(el),
       );
@@ -60,16 +61,16 @@ class _SearchResultState extends State<SearchResult> {
       return InkWell(
         child: ListTile(
           contentPadding: EdgeInsets.all(0),
-          leading: CircleAvatar(
-            radius: 22,
-            backgroundColor: Colors.red,
+          leading: SizedBox.square(
+            dimension: 48,
+            child: Image.network(el.urlAlbum),
           ),
           title: Text(el.albumName, style: TextStyle(color: Colors.white)),
           subtitle: Text('Album', style: TextStyle(color: Color(0xffcccccc))),
-          trailing: Icon(Icons.close, color: Colors.white, size: 30),
+          //trailing: Icon(Icons.close, color: Colors.white, size: 30),
         ),
         onTap: () {
-          Playing.currentAlbum = el.album;
+          //TODO
           Navigation.navigatorKey.currentState!.pushNamed('/album');
         },
       );

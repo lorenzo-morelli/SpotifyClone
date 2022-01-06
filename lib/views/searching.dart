@@ -29,18 +29,22 @@ class _SearchingState extends State<Searching> {
             border: InputBorder.none,
           ),
           onChanged: (val) => setState(() {
+            print(query);
             query = val;
             search = Constants.allElements.where((elem) {
+              query = query.toLowerCase();
               if (elem is Song) {
-                return elem.songName.contains(query);
+                var name = elem.songName.toLowerCase();
+                return name.startsWith(query);
               }
-              else if (elem is Artist) {
-                return elem.artistName.contains(query);
+              if (elem is Artist) {
+                var name = elem.artistName.toLowerCase();
+                return name.startsWith(query);
               }
-              else if (elem is Album) {
-                return elem.albumName.contains(query);
-              }
-              else {
+              if (elem is Album) {
+                var name = elem.albumName;
+                return name.startsWith(query);
+              } else {
                 return false;
               }
             }).toList();
@@ -52,27 +56,29 @@ class _SearchingState extends State<Searching> {
       ),
       backgroundColor: Constants.backgroundColor,
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 12),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         child: query.isEmpty
             ? ListView(
                 children: [
                   Text('Recent searches', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Constants.results.isNotEmpty
+                  Constants.history.isNotEmpty
                       ? ListView.builder(
                           shrinkWrap: true,
-                          itemCount: Constants.results.length,
+                          itemCount: Constants.history.length,
                           itemBuilder: (context, index) {
-                            return SearchResult(result: Constants.results[index]);
+                            return SearchResult(result: Constants.history[index]);
                           })
-                      : Text('no'),
+                      : Text('nulla recente'),
                 ],
               )
-            : search.isNotEmpty ? ListView.builder(
-                itemCount: search.length,
-                itemBuilder: (context, index) {
-                  return SearchResult(result: search[index]);
-                },
-              ) : Text('trovato nada'),
+            : search.isNotEmpty
+                ? ListView.builder(
+                    padding: EdgeInsets.only(bottom: 40),
+                    itemCount: search.length,
+                    itemBuilder: (context, index) {
+                      return SearchResult(result: search[index]);
+                    })
+                : Text('trovato nada'),
       ),
     );
   }

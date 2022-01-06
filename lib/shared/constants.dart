@@ -116,8 +116,8 @@ class Constants {
     parachutes,
     anEveningWithSilkSonic,
     theDarkSideOfTheMoon,
-    aveteRagioneTutti
+    aveteRagioneTutti,
   ];
 
-  static List<Elements> results = [];
+  static List<Elements> history = [];
 }
