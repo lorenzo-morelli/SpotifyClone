@@ -19,8 +19,10 @@ class _TinyPlayerState extends State<TinyPlayer> {
 
   @override
   void initState() {
-    ColorProvider.updatePaletteGenerator(Image.network(Playing.currentAlbum!.urlAlbum)).then((color) {
-      setState(() => backgroundColor = color);
+    AudioController.player.audioPlayer.onDurationChanged.listen((Duration s) {
+      ColorProvider.updatePaletteGenerator(Image.network(Playing.playingSong!.album.urlAlbum)).then((color) {
+        setState(() => backgroundColor = color);
+      });
     });
     AudioController.player.audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
       setState(() {

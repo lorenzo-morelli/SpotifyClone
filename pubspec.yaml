@@ -24,6 +24,7 @@ flutter:
     - assets/music/
     - assets/music/coldplay/
     - assets/music/canova/
+    - assets/music/silk_sonic/
   uses-material-design: true
   fonts:
     - family: Circular

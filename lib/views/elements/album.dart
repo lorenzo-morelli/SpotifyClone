@@ -33,7 +33,8 @@ class _AlbumPageState extends State<AlbumPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Song> songList = Constants.allSongs.where((song) => song.album.albumName == widget.album.albumName).toList();
+    List<Elements> elementsList = Constants.allElements.where((song) => song is Song && song.album.albumName == widget.album.albumName).toList();
+    List<Song> songList = List<Song>.from(elementsList);
     songList.sort((a, b) => a.number.compareTo(b.number));
 
     return Scaffold(
@@ -45,12 +46,21 @@ class _AlbumPageState extends State<AlbumPage> {
             pinned: true,
             stretch: true,
             expandedHeight: 330,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(widget.album.albumName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
-              background: FittedBox(
-                fit: BoxFit.cover,
-                child: Image.network(widget.album.urlAlbum),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [appBarColor, appBarColor.darken(0.07)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                )
+              ),
+              child: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text(widget.album.albumName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
+                background: FittedBox(
+                  fit: BoxFit.cover,
+                  child: Image.network(widget.album.urlAlbum),
+                ),
               ),
             ),
           ),

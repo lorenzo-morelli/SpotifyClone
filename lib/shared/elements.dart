@@ -1,4 +1,7 @@
-class Song {
+class Elements {
+}
+
+class Song extends Elements {
   int number;
   String songName;
   Album album;
@@ -8,7 +11,7 @@ class Song {
   Song(this.number, this.songName, this.album, this.artist, this.filePath);
 }
 
-class Album {
+class Album extends Elements {
   String albumName;
   String urlAlbum;
   Artist artist;
@@ -16,7 +19,7 @@ class Album {
   Album(this.albumName, this.urlAlbum, this.artist);
 }
 
-class Artist {
+class Artist extends Elements {
   String artistName;
 
   Artist(this.artistName);

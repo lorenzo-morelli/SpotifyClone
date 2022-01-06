@@ -43,7 +43,7 @@ class Constants {
   static Artist coldplay = Artist('Coldplay');
   static Artist pinkFloyd = Artist('Pink Floyd');
   static Artist canova = Artist('Canova');
-  static Artist silkSonic = Artist('SilkSonic');
+  static Artist silkSonic = Artist('Bruno Mars, Anderson Paak, Silk Sonic');
 
   static Album aveteRagioneTutti = Album('Avete Ragione Tutti', canovaUrl, canova);
   static Album theDarkSideOfTheMoon = Album('The Dark Side Of The Moon', pinkFloydUrl, pinkFloyd);
@@ -71,7 +71,16 @@ class Constants {
   static Song maradona = Song(8, 'Maradona', aveteRagioneTutti, canova, 'music/canova/Canova - Maradona (videotributo).mp3');
   static Song laFesta = Song(9, 'La festa - live', aveteRagioneTutti, canova, 'music/canova/Canova - La festa (live session).mp3');
 
-  static List<Song> allSongs = [
+  static Song silkSonicIntro = Song(1, 'Silk Sonic Intro', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak-Silk-Sonic-Silk-Sonic-Intro-(FlexyOkay.com).mp3');
+  static Song leaveTheDoorOpen = Song(2, 'Leave The Door Open', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak-Silk-Sonic-Leave-the-Door-Open-(FlexyOkay.com).mp3');
+  static Song flyAsMe = Song(3, 'Fly As Me', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak---Silk-Sonic-Fly-As-Me-(FlexyOkay.com).mp3');
+  static Song afterLastNight = Song(4, 'After Last Night', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak---Silk-Sonic-After-Last-Night--feat-Thundercat---Bootsy-Collins--(FlexyOkay.com).mp3');
+  static Song smokingOutTheWindow = Song(5, 'Smokin Out The Window', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak-Silk-Sonic-Smokin-Out-The-Window-(FlexyOkay.com).mp3');
+  static Song putOnASmile = Song(6, 'Put On A Smile', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak---Silk-Sonic-Put-On-A-Smile-(FlexyOkay.com).mp3');
+  static Song song777 = Song(7, '777', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak---Silk-Sonic-777-(FlexyOkay.com).mp3');
+  static Song skate = Song(8, 'Skate', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak-Silk-Sonic-Skate-(FlexyOkay.com).mp3');
+  static Song blastOff = Song(9, 'Blast Off', anEveningWithSilkSonic, silkSonic, 'music/silk_sonic/Bruno-Mars-Anderson-Paak---Silk-Sonic-Blast-Off-(FlexyOkay.com).mp3');
+  static List<Elements> allElements = [
     dontPanic,
     shiver,
     spies,
@@ -91,6 +100,24 @@ class Constants {
     aziz,
     maradona,
     laFesta,
+    silkSonicIntro,
+    leaveTheDoorOpen,
+    song777,
+    blastOff,
+    flyAsMe,
+    afterLastNight,
+    skate,
+    smokingOutTheWindow,
+    putOnASmile,
+    canova,
+    coldplay,
+    silkSonic,
+    pinkFloyd,
+    parachutes,
+    anEveningWithSilkSonic,
+    theDarkSideOfTheMoon,
+    aveteRagioneTutti
   ];
 
+  static List<Elements> results = [];
 }
