@@ -11,17 +11,17 @@ class Searching extends StatefulWidget {
 }
 
 class _SearchingState extends State<Searching> {
-  var controller = TextEditingController();
   List<Elements> search = [];
   String query = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: TextField(
-          controller: controller,
+          autofocus: true,
           style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Search query',

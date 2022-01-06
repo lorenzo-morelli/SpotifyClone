@@ -92,7 +92,7 @@ class _PageSelectorState extends State<PageSelector> {
           },
         ),
       ),
-      bottomNavigationBar: Stack(
+      bottomNavigationBar: MediaQuery.of(context).viewInsets.bottom == 0 ? Stack(
         alignment: Alignment.bottomCenter,
         children: [
           Container(
@@ -160,7 +160,7 @@ class _PageSelectorState extends State<PageSelector> {
           ),
           Playing.playingSong != null ? Positioned(top: 12, child: TinyPlayer(audioDuration: audioDuration)) : Container(),
         ],
-      ),
+      ) : null,
     );
   }
 
