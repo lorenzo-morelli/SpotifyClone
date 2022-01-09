@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:spotify/services/audio.dart';
 import 'package:spotify/services/navigation.dart';
 import 'package:spotify/views/search.dart';
+import 'package:spotify/views/searching.dart';
 import 'package:spotify/views/tiny_player/tiny_player.dart';
 import 'package:spotify/views/your_library.dart';
 import 'elements/album.dart';
@@ -81,10 +82,12 @@ class _PageSelectorState extends State<PageSelector> {
               case '/album':
                 builder = (BuildContext context) => AlbumPage(album: Playing.currentAlbum!);
                 break;
+              case '/searching':
+                builder = (BuildContext context) => Searching();
+                break;
               default:
                 throw Exception('Invalid route: ${settings.name}');
             }
-
             return MaterialPageRoute(
               builder: builder,
               settings: settings,
@@ -92,75 +95,78 @@ class _PageSelectorState extends State<PageSelector> {
           },
         ),
       ),
-      bottomNavigationBar: MediaQuery.of(context).viewInsets.bottom == 0 ? Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: 130,
-            alignment: Alignment.bottomCenter,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: const [Colors.black, Colors.transparent],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                stops: const [0, 0.9],
-              ),
-            ),
-            child: BottomNavigationBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: IconButton(
-                    icon: Icon(Foundation.home),
-                    alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(bottom: 5),
-                    iconSize: 27,
-                    onPressed: () {
-                      changeItem(0);
-                      Navigation.navigatorKey.currentState!.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                    },
-                  ),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: IconButton(
-                    icon: Icon(AntDesign.search1),
-                    alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(bottom: 5),
-                    iconSize: 25,
-                    onPressed: () {
-                      changeItem(1);
-                      Navigation.navigatorKey.currentState!.pushNamedAndRemoveUntil('/search', (Route<dynamic> route) => false);
-                    },
-                  ),
-                  label: 'Search',
-                ),
-                BottomNavigationBarItem(
-                    icon: IconButton(
-                      icon: Icon(Ionicons.md_book),
-                      alignment: Alignment.bottomCenter,
-                      padding: EdgeInsets.only(bottom: 5),
-                      iconSize: 27,
-                      onPressed: () {
-                        changeItem(2);
-                        Navigation.navigatorKey.currentState!.pushNamedAndRemoveUntil('/your_library', (Route<dynamic> route) => false);
-                      },
+      bottomNavigationBar: MediaQuery.of(context).viewInsets.bottom == 0
+          ? Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
+                  height: 130,
+                  alignment: Alignment.bottomCenter,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: const [Colors.black, Colors.transparent],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      stops: const [0, 0.9],
                     ),
-                    label: 'Your library'),
+                  ),
+                  child: BottomNavigationBar(
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: IconButton(
+                          icon: Icon(Foundation.home),
+                          alignment: Alignment.bottomCenter,
+                          padding: EdgeInsets.only(bottom: 5),
+                          iconSize: 27,
+                          onPressed: () {
+                            changeItem(0);
+                            Navigation.navigatorKey.currentState!.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                          },
+                        ),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: IconButton(
+                          icon: Icon(AntDesign.search1),
+                          alignment: Alignment.bottomCenter,
+                          padding: EdgeInsets.only(bottom: 5),
+                          iconSize: 25,
+                          onPressed: () {
+                            changeItem(1);
+                            Navigation.navigatorKey.currentState!.pushNamedAndRemoveUntil('/search', (Route<dynamic> route) => false);
+                          },
+                        ),
+                        label: 'Search',
+                      ),
+                      BottomNavigationBarItem(
+                          icon: IconButton(
+                            icon: Icon(Ionicons.md_book),
+                            alignment: Alignment.bottomCenter,
+                            padding: EdgeInsets.only(bottom: 5),
+                            iconSize: 27,
+                            onPressed: () {
+                              changeItem(2);
+                              Navigation.navigatorKey.currentState!
+                                  .pushNamedAndRemoveUntil('/your_library', (Route<dynamic> route) => false);
+                            },
+                          ),
+                          label: 'Your library'),
+                    ],
+                    currentIndex: _selectedIndex,
+                    selectedItemColor: Colors.white,
+                    unselectedItemColor: Colors.grey,
+                    selectedFontSize: 10,
+                    unselectedFontSize: 10,
+                    iconSize: 30,
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    onTap: changeItem,
+                  ),
+                ),
+                Playing.playingSong != null ? Positioned(top: 12, child: TinyPlayer(audioDuration: audioDuration)) : Container(),
               ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.white,
-              unselectedItemColor: Colors.grey,
-              selectedFontSize: 10,
-              unselectedFontSize: 10,
-              iconSize: 30,
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              onTap: changeItem,
-            ),
-          ),
-          Playing.playingSong != null ? Positioned(top: 12, child: TinyPlayer(audioDuration: audioDuration)) : Container(),
-        ],
-      ) : null,
+            )
+          : null,
     );
   }
 

@@ -21,7 +21,7 @@ class _AlbumPageState extends State<AlbumPage> {
   @override
   void initState() {
     ColorProvider.updatePaletteGenerator(Image.network(widget.album.urlAlbum)).then((color) {
-      setState(() =>  appBarColor = color);
+      setState(() => appBarColor = color);
     });
     AudioController.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
       if (mounted) {
@@ -33,7 +33,8 @@ class _AlbumPageState extends State<AlbumPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Elements> elementsList = Constants.allElements.where((song) => song is Song && song.album.albumName == widget.album.albumName).toList();
+    List<Elements> elementsList =
+        Constants.allElements.where((song) => song is Song && song.album.albumName == widget.album.albumName).toList();
     List<Song> songList = List<Song>.from(elementsList);
     songList.sort((a, b) => a.number.compareTo(b.number));
 
@@ -48,12 +49,11 @@ class _AlbumPageState extends State<AlbumPage> {
             expandedHeight: 330,
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [appBarColor, appBarColor.darken(0.07)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                )
-              ),
+                  gradient: LinearGradient(
+                colors: [appBarColor, appBarColor.darken(0.07)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )),
               child: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text(widget.album.albumName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
@@ -110,33 +110,37 @@ class _AlbumPageState extends State<AlbumPage> {
           ),
           SliverList(
               delegate: SliverChildListDelegate(List.generate(songList.length, (index) {
-                return InkWell(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            return InkWell(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(songList[index].songName,
-                                style: TextStyle(
-                                    fontSize: 16, color: Playing.playingSong == songList[index] ? Constants.green : Colors.white)),
-                            SizedBox(height: 3),
-                            Text(songList[index].artist.artistName, style: TextStyle(color: Colors.white70, fontSize: 13.7)),
-                          ],
-                        ),
-                        Icon(Feather.more_vertical, color: Colors.white70),
+                        Text(songList[index].songName,
+                            style: TextStyle(fontSize: 16, color: Playing.playingSong == songList[index] ? Constants.green : Colors.white)),
+                        SizedBox(height: 3),
+                        Text(songList[index].artist.artistName, style: TextStyle(color: Colors.white70, fontSize: 13.7)),
                       ],
                     ),
-                  ),
-                  onTap: () => AudioController.player.changeSong(songList[index]),
-                );
-              }))),
+                    Icon(Feather.more_vertical, color: Colors.white70),
+                  ],
+                ),
+              ),
+              onTap: () {
+                AudioController.player.changeSong(songList[index]);
+                if (Playing.playingSong != null) {
+                  Playing.queue.addAll(songList.where((element) => element.number >= Playing.playingSong!.number));
+                }
+              },
+            );
+          }))),
           SliverList(
               delegate: SliverChildListDelegate([
-                SizedBox(height: 200),
-              ]))
+            SizedBox(height: 200),
+          ]))
         ],
       ),
     );

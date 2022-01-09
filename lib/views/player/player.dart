@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -7,6 +9,7 @@ import 'package:spotify/services/audio.dart';
 import 'package:spotify/services/colors.dart';
 import 'package:spotify/services/navigation.dart';
 import 'package:spotify/shared/constants.dart';
+import 'package:spotify/views/player/queue.dart';
 
 class Player extends StatefulWidget {
   const Player({Key? key, required this.audioDuration, required this.backgroundColor}) : super(key: key);
@@ -18,6 +21,9 @@ class Player extends StatefulWidget {
 }
 
 class _PlayerState extends State<Player> {
+  late int currentIndex;
+  late int previousIndex;
+  late int nextIndex;
 
   @override
   void initState() {
@@ -74,8 +80,7 @@ class _PlayerState extends State<Player> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GestureDetector(
-                          child: Text(Playing.playingSong?.songName ?? "",
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          child: Text(Playing.playingSong?.songName ?? "", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                           onTap: () {
                             Navigator.of(context).pop();
                             Navigation.navigatorKey.currentState!.pushNamed('/album');
@@ -112,7 +117,8 @@ class _PlayerState extends State<Player> {
                     children: [
                       Text(AudioController.player.getTimeString(AudioController.timeProgress) ?? '--:--',
                           style: TextStyle(color: Colors.grey[400])),
-                      Text(AudioController.player.getTimeString(widget.audioDuration) ?? '--:--', style: TextStyle(color: Colors.grey[400])),
+                      Text(AudioController.player.getTimeString(widget.audioDuration) ?? '--:--',
+                          style: TextStyle(color: Colors.grey[400])),
                     ],
                   ),
                 ),
@@ -126,7 +132,16 @@ class _PlayerState extends State<Player> {
                         IconButton(
                           icon: Icon(Ionicons.ios_skip_backward, color: Colors.white),
                           iconSize: 35,
-                          onPressed: () => AudioController.player.seekToSec(0),
+                          onPressed: () {
+                            if (AudioController.timeProgress < 4000) {
+                              currentIndex = Playing.queue.indexWhere((element) => element.songName == Playing.playingSong!.songName);
+                              previousIndex = currentIndex - 1 == -1 ? currentIndex : currentIndex - 1;
+                              AudioController.player.changeSong(Playing.queue.elementAt(previousIndex));
+                            } else {
+                              AudioController.player.seekToSec(0);
+                              print(AudioController.timeProgress);
+                            }
+                          },
                         ),
                         SizedBox(width: 16),
                         IconButton(
@@ -146,7 +161,11 @@ class _PlayerState extends State<Player> {
                         IconButton(
                           icon: Icon(Ionicons.ios_skip_forward, color: Colors.white),
                           iconSize: 35,
-                          onPressed: () {},
+                          onPressed: () {
+                            currentIndex = Playing.queue.indexWhere((element) => element.songName == Playing.playingSong!.songName);
+                            nextIndex = currentIndex + 1 == Playing.queue.length ? currentIndex : currentIndex + 1;
+                            AudioController.player.changeSong(Playing.queue.elementAt(nextIndex));
+                          },
                         ),
                       ],
                     ),
@@ -165,10 +184,18 @@ class _PlayerState extends State<Player> {
                       ],
                     ),
                     Row(
-                      children: const [
+                      children: [
                         Icon(EvilIcons.share_google, color: Colors.white, size: 28),
                         SizedBox(width: 25),
-                        Icon(Icons.queue_music, color: Colors.white),
+                        IconButton(
+                          icon: Icon(Icons.queue_music),
+                          color: Colors.white,
+                          onPressed: () => showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => QueueList(),
+                          ),
+                        ),
                       ],
                     ),
                   ],

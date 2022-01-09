@@ -29,24 +29,23 @@ class _SearchingState extends State<Searching> {
             border: InputBorder.none,
           ),
           onChanged: (val) => setState(() {
-            print(query);
             query = val;
             search = Constants.allElements.where((elem) {
               query = query.toLowerCase();
+              var cond = false;
               if (elem is Song) {
                 var name = elem.songName.toLowerCase();
-                return name.startsWith(query);
+                cond = cond || name.startsWith(query);
               }
               if (elem is Artist) {
                 var name = elem.artistName.toLowerCase();
-                return name.startsWith(query);
+                cond = cond || name.startsWith(query);
               }
               if (elem is Album) {
-                var name = elem.albumName;
-                return name.startsWith(query);
-              } else {
-                return false;
+                var name = elem.albumName.toLowerCase();
+                cond = cond || name.startsWith(query);
               }
+              return cond;
             }).toList();
           }),
         ),

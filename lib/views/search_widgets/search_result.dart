@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/services/audio.dart';
 import 'package:spotify/services/navigation.dart';
+import 'package:spotify/shared/constants.dart';
 import 'package:spotify/shared/elements.dart';
 
 class SearchResult extends StatefulWidget {
@@ -35,7 +36,7 @@ class _SearchResultState extends State<SearchResult> {
             radius: 22,
             backgroundColor: Colors.red,
           ),
-          title: Text(el.artistName, style: TextStyle(color: Colors.white)),
+          title: Text(el.artistName, style: TextStyle(color: Playing.playingSong?.artist.artistName != el.artistName ? Colors.white : Constants.green)),
           subtitle: Text('Artist', style: TextStyle(color: Color(0xffcccccc))),
           //trailing: Icon(Icons.close, color: Colors.white, size: 30),
         ),
@@ -50,7 +51,7 @@ class _SearchResultState extends State<SearchResult> {
             dimension: 48,
             child: Image.network(el.album.urlAlbum),
           ),
-          title: Text(el.songName, style: TextStyle(color: Colors.white)),
+          title: Text(el.songName, style: TextStyle(color: Playing.playingSong?.songName != el.songName ? Colors.white : Constants.green)),
           subtitle: Text('Song', style: TextStyle(color: Color(0xffcccccc))),
           //trailing: Icon(Icons.close, color: Colors.white, size: 30),
         ),
@@ -65,7 +66,7 @@ class _SearchResultState extends State<SearchResult> {
             dimension: 48,
             child: Image.network(el.urlAlbum),
           ),
-          title: Text(el.albumName, style: TextStyle(color: Colors.white)),
+          title: Text(el.albumName, style: TextStyle(color: Playing.playingSong?.album.albumName != el.albumName ? Colors.white : Constants.green)),
           subtitle: Text('Album', style: TextStyle(color: Color(0xffcccccc))),
           //trailing: Icon(Icons.close, color: Colors.white, size: 30),
         ),

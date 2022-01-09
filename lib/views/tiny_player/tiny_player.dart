@@ -20,23 +20,35 @@ class _TinyPlayerState extends State<TinyPlayer> {
   @override
   void initState() {
     AudioController.player.audioPlayer.onDurationChanged.listen((Duration s) {
-      ColorProvider.updatePaletteGenerator(Image.network(Playing.playingSong!.album.urlAlbum)).then((color) {
-        setState(() => backgroundColor = color);
-      });
+      if (mounted) {
+        ColorProvider.updatePaletteGenerator(Image.network(Playing.playingSong!.album.urlAlbum)).then((color) {
+          setState(() => backgroundColor = color);
+        });
+      }
     });
     AudioController.player.audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
-      setState(() {
-        AudioController.player.audioPlayerState = s;
-      });
+      if (mounted) {
+        setState(() {
+          AudioController.player.audioPlayerState = s;
+        });
+      }
     });
     AudioController.player.audioPlayer.onAudioPositionChanged.listen((Duration p) async {
-      setState(() {
-        AudioController.timeProgress = p.inMilliseconds;
-      });
+      if (mounted) {
+        setState(() {
+          AudioController.timeProgress = p.inMilliseconds;
+        });
+      }
     });
     super.initState();
   }
 
+  @override
+  void dispose() {
+    AudioController.player.dispose();
+    super.dispose();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return backgroundColor != null ? InkWell(

@@ -31,8 +31,8 @@ class AudioController {
   }
 
   void changeSong(Song song) async {
-    await audioCache.play(song.filePath);
     Playing.playingSong = song;
+    await audioCache.play(song.filePath);
     seekToSec(0);
   }
 
@@ -54,4 +54,6 @@ class Playing {
   static Song? playingSong;
   static Album? currentAlbum;
   static List<Song> queue = [];
+  static bool shuffle = false;
+  static int repeat = 0; // 0 = no, 1 = general, 2 = all
 }

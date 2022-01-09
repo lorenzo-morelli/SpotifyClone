@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/services/audio.dart';
+import 'package:spotify/services/navigation.dart';
 import 'package:spotify/shared/constants.dart';
 import 'package:spotify/views/home_widgets/jump_back_in_item.dart';
 import 'package:spotify/views/search_widgets/genres.dart';
@@ -38,7 +39,7 @@ class _SearchState extends State<Search> {
                 height: 45,
                 child: GestureDetector(
                   child: SearchButton(),
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Searching())),
+                  onTap: () => Navigation.navigatorKey.currentState!.pushNamed('/searching'),
                 ),
               ),
             ),
